@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: goku-live
+    runtime: node
+    plan: free
+    buildCommand: npm ci --no-audit --no-fund && npm test
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production

@@ -1,0 +1,5 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {chooseForm,reply} from '../dist/game.mjs';
+test('cor por nome, alternativa por valor e regra manual por ID',()=>{for(const [giftName,expected] of [['Rosa',2],['Coração',2],['Gelo',3],['Estrela',1],['Galáxia',4]])assert.equal(chooseForm({giftName}),expected);assert.equal(chooseForm({giftName:'Desconhecido',cost:1000}),4);assert.equal(chooseForm({giftId:'55',giftName:'Rosa'},{55:3}),3);assert.equal(chooseForm({giftName:'Rosa'},{Rosa:1}),1)});
+test('respostas preservam o @ real, agradecem quantidade e respondem saudações',()=>{assert.match(reply({type:'join',name:'ana_01'}),/ana_01/);assert.match(reply({type:'gift',name:'joao.real',giftName:'Rosa',repeat:5}),/joao.real, por 5 Rosa/);assert.match(reply({type:'comment',name:'beatriz',comment:'Olá! Tudo bem?'}),/Tudo ótimo, beatriz/);assert.match(reply({type:'comment',name:'pedro',comment:'oi'}),/Oi, pedro/);assert.match(reply({type:'comment',name:'leo',comment:'boa noite'}),/Olá, leo/)});

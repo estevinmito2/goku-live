@@ -1,0 +1,7 @@
+# Artes
+
+Geradas com a ferramenta Imagegen integrada e copiadas para este projeto.
+
+`dist/namek.png`: "Create a high quality 16:9 landscape background for a Dragon Ball browser game: Planet Namek, emerald green sky, turquoise water, layered blue-green rounded cliffs and grassy islands, distinctive tall slender trees with round blue canopies, distant small planets. Beautiful hand painted cel animated anime background, clean vivid saturated colors, cinematic lighting, atmospheric depth, no characters, no text, no UI. Landscape fills frame. Asset for parallax scene."
+
+`dist/goku-forms.png`: "Game asset sprite sheet on transparent background, exactly FIVE equally spaced full body versions of adult Goku from Dragon Ball in ONE HORIZONTAL ROW, each same size and same floating upright pose, arms bent fists at sides, legs slightly bent, feet visible, facing viewer with slight three quarter angle, orange gi blue undershirt belt wristbands and boots, crisp authentic cel shaded anime illustration. From LEFT to RIGHT: 1 base black spiky hair, 2 Super Saiyan upright golden spiky hair, 3 Super Saiyan God red spiky hair, 4 Super Saiyan Blue cyan upright spiky hair, 5 Ultra Instinct silver spiky hair. Consistent attractive proportions, detailed recognizable Goku face, no aura, no lettering, no floor, no background. Each character fully separate, equal width cells, no overlap, generous transparent padding. Wide sprite strip."
