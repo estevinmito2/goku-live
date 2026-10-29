@@ -14,7 +14,7 @@ Node.js 22 ou superior: `npm ci`, `npm test`, `npm start`. Abra http://127.0.0.1
 4. Use Modo transmissão ou `?overlay=1` para captura vertical. O botão Sair volta aos controles.
 5. Capture o navegador e seu áudio no software de transmissão, como no FotoLab. O jogo recebe eventos; ele não transmite vídeo por conta própria.
 
-Entradas recebem boas-vindas usando `user.uniqueId`, o @ que a plataforma entrega. Esse identificador é preferido ao apelido; não é o nome civil. Comentários recebem respostas locais a saudações, tudo bem, despedidas, agradecimentos e temas simples. Não há modelo de IA ou conversa aberta: mensagens fora das regras recebem resposta genérica. Uma pequena pausa por usuário evita repetir saudações em excesso.
+Entradas recebem boas-vindas usando `user.uniqueId`, o @ que a plataforma entrega. Esse identificador é preferido ao apelido; não é o nome civil. Comentários podem receber respostas por IA com histórico separado por usuário quando o serviço estiver configurado e desbloqueado. Sem configuração, o modo básico continua com respostas locais. Veja CONFIGURAR-IA-E-VOZ.md para ativação, serviços necessários, limites e estado da voz enviada.
 
 ## Presentes
 
@@ -24,7 +24,7 @@ Cada evento final de presente entra na fila, mesmo que seja igual ao anterior. C
 
 ## Áudio e artes
 
-Trilha instrumental original sintetizada no navegador, sem gravação ou melodia oficial de Dragon Ball. É possível selecionar um arquivo de música local no painel. A voz é a síntese do aparelho, sem imitar o dublador. O navegador exige um clique para ativar áudio. A música abaixa durante as falas e a fila evita vozes sobrepostas.
+Trilha instrumental original sintetizada no navegador, sem gravação ou melodia oficial de Dragon Ball. É possível selecionar um arquivo de música local no painel. A voz pode ser a síntese do aparelho ou uma voz autorizada via ElevenLabs, quando configurada no servidor e desbloqueada no painel. O navegador exige um clique para ativar áudio. A música abaixa durante as falas e a fila evita vozes sobrepostas.
 
 Artes criadas com Imagegen integrado. Prompts e arquivos descritos em `ARTES.md`. As cinco formas possuem sprites próprios, aura, partículas e efeito de transformação. As animações respeitam a preferência de movimento reduzido.
 

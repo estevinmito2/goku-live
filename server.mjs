@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {TikTokLiveConnection,WebcastEvent,ControlEvent} from 'tiktok-live-connector';
 import {username,normalize,giftRules} from './live-events.mjs';
 import {connectionError,safeDiagnostic} from './connection-errors.mjs';
+import {createBrain} from './brain.mjs';
 
 export function createGameServer(factory=name=>new TikTokLiveConnection(name,{
   // Gift events already carry giftDetails; avoid the optional signed gift catalog.
@@ -16,6 +17,7 @@ export function createGameServer(factory=name=>new TikTokLiveConnection(name,{
   const publicOrigin=publicUrl?new URL(publicUrl).origin:null;
   const connectTimeout=config.connectTimeout||35000;
   const sessions=new Map();
+  const brain=config.brain||createBrain();
   const send=(s,type,payload)=>{const chunk=`event: ${type}\ndata: ${JSON.stringify(payload)}\n\n`;for(const client of s.clients){if(client.writableLength>262144){client.destroy();s.clients.delete(client)}else client.write(chunk)}};
   const state=(s,status,message)=>{s.status=status;s.message=message;send(s,'status',{status,message,username:s.username})};
   const stop=async s=>{const conn=s.conn;s.conn=null;if(conn)await conn.disconnect().catch(()=>{})};
@@ -37,6 +39,19 @@ export function createGameServer(factory=name=>new TikTokLiveConnection(name,{
       if(url.pathname.startsWith('/api/')){
         const s=sessions.get(req.headers['x-session-id']||url.searchParams.get('session'));
         if(!s){json(res,401,{error:'Sessão expirada. Atualize a página.'});return}s.updated=Date.now();
+        if(url.pathname.startsWith('/api/ai/')&&req.method==='POST'){
+          let raw='';for await(const part of req){raw+=part;if(Buffer.byteLength(raw)>4096){json(res,413,{error:'Pedido muito grande.'});return}}
+          let body;try{body=JSON.parse(raw||'{}')}catch{json(res,400,{error:'JSON inválido.'});return}
+          try{
+            const action=url.pathname.slice('/api/ai/'.length);
+            if(action==='status'){json(res,200,brain.info(s));return}
+            if(action==='unlock'){json(res,200,brain.unlock(s,body.token));return}
+            if(action==='reset'){brain.reset(s);json(res,200,{ok:true});return}
+            if(action==='chat'){json(res,200,await brain.chat(s,body));return}
+            if(action==='speech'){const bytes=await brain.speech(s,body.text);res.writeHead(200,{'Content-Type':'audio/mpeg','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(bytes);return}
+            json(res,404,{error:'Recurso de IA não encontrado.'});return;
+          }catch(error){json(res,error.status||500,{error:error.status?error.message:'Falha no serviço de IA.'});return}
+        }
         if(url.pathname==='/api/events'&&req.method==='GET'){
           if(s.clients.size>=3){json(res,429,{error:'Muitas conexões.'});return}
           res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache','Connection':'keep-alive','X-Accel-Buffering':'no'});res.write(': connected\n\n');s.clients.add(res);
