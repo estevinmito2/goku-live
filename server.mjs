@@ -22,7 +22,7 @@ export function createGameServer(factory=name=>new TikTokLiveConnection(name,{
   const state=(s,status,message)=>{s.status=status;s.message=message;send(s,'status',{status,message,username:s.username})};
   const stop=async s=>{const conn=s.conn;s.conn=null;if(conn)await conn.disconnect().catch(()=>{})};
   const json=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(data))};
-  const files={'/local-voice-ui.js':'local-voice-ui.js','/saiyan-aura.mp3':'saiyan-aura.mp3','/namek.png':'namek.png','/goku-forms.png':'goku-forms.png','/game.mjs':'game.mjs','/':'index.html','/index.html':'index.html','/style.css':'style.css','/live.css':'live.css','/audio.js':'audio.js','/app.js':'app.js','/connection.js':'connection.js'};
+  const files={'/voice-reference-store.js':'voice-reference-store.js','/local-voice-ui.js':'local-voice-ui.js','/saiyan-aura.mp3':'saiyan-aura.mp3','/namek.png':'namek.png','/goku-forms.png':'goku-forms.png','/game.mjs':'game.mjs','/':'index.html','/index.html':'index.html','/style.css':'style.css','/live.css':'live.css','/audio.js':'audio.js','/app.js':'app.js','/connection.js':'connection.js'};
   const server=http.createServer(async(req,res)=>{
     try{
       const host=req.headers.host||'';
