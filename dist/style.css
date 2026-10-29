@@ -18,4 +18,5 @@
 .broadcast .ki small{font-size:clamp(13px,1.8cqh,20px);opacity:.95}
 .broadcast .track{height:8px;margin:12px 0 10px}
 .broadcast #exit{top:8%;font-size:clamp(14px,1.8cqh,20px);padding:9px 15px}
+.broadcast .stage{width:min(100vw,calc(100dvh * 9 / 16));height:min(100dvh,calc(100vw * 16 / 9));max-width:none;max-height:100dvh}
 
