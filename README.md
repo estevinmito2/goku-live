@@ -33,3 +33,7 @@ Artes criadas com Imagegen integrado. Prompts e arquivos descritos em `ARTES.md`
 Configuração do Render em `render.yaml`: build `npm ci --no-audit --no-fund && npm test`, start `npm start`, health `/healthz`. Render fornece `RENDER_EXTERNAL_URL`; em outro provedor configure `PUBLIC_URL` com a origem HTTPS do jogo. Se necessário, configure `EULER_API_KEY` no ambiente do servidor, nunca no código ou navegador. Conexão é por biblioteca não oficial, dependente do TikTok e do provedor de assinatura. Reinícios exigem reconexão; hospedagem gratuita pode adormecer.
 
 Testes automatizados usam um conector simulado; uma live ativa ainda é necessária para validar entrada, comentário e presente reais. Não é necessário comprar presentes para testar a demonstração.
+
+## Som de aura enviado
+
+O arquivo `dist/saiyan-aura.mp3` foi fornecido pelo usuário e toca em loop enquanto qualquer transformação está ativa. Para ao voltar à forma base, ao desconectar ou ao desligar o áudio. Tem volume próprio e abaixa durante as falas. Ative o som com um clique no navegador.

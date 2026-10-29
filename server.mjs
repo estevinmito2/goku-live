@@ -22,7 +22,7 @@ export function createGameServer(factory=name=>new TikTokLiveConnection(name,{
   const state=(s,status,message)=>{s.status=status;s.message=message;send(s,'status',{status,message,username:s.username})};
   const stop=async s=>{const conn=s.conn;s.conn=null;if(conn)await conn.disconnect().catch(()=>{})};
   const json=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(data))};
-  const files={'/namek.png':'namek.png','/goku-forms.png':'goku-forms.png','/game.mjs':'game.mjs','/':'index.html','/index.html':'index.html','/style.css':'style.css','/live.css':'live.css','/audio.js':'audio.js','/app.js':'app.js','/connection.js':'connection.js'};
+  const files={'/saiyan-aura.mp3':'saiyan-aura.mp3','/namek.png':'namek.png','/goku-forms.png':'goku-forms.png','/game.mjs':'game.mjs','/':'index.html','/index.html':'index.html','/style.css':'style.css','/live.css':'live.css','/audio.js':'audio.js','/app.js':'app.js','/connection.js':'connection.js'};
   const server=http.createServer(async(req,res)=>{
     try{
       const host=req.headers.host||'';
@@ -90,7 +90,7 @@ export function createGameServer(factory=name=>new TikTokLiveConnection(name,{
         json(res,404,{error:'Rota não encontrada.'});return;
       }
       const file=files[url.pathname];if(req.method!=='GET'||!file){res.writeHead(404);res.end('Não encontrado');return}
-      const ext=file.split('.').pop();const data=await readFile(new URL('./dist/'+file,import.meta.url));res.writeHead(200,{'Content-Type':{webmanifest:'application/manifest+json',html:'text/html; charset=utf-8',css:'text/css',js:'text/javascript',mjs:'text/javascript',png:'image/png'}[ext],'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'});res.end(data);
+      const ext=file.split('.').pop();const data=await readFile(new URL('./dist/'+file,import.meta.url));res.writeHead(200,{'Content-Type':{webmanifest:'application/manifest+json',html:'text/html; charset=utf-8',css:'text/css',js:'text/javascript',mjs:'text/javascript',png:'image/png',mp3:'audio/mpeg'}[ext],'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'});res.end(data);
     }catch{if(!res.headersSent)json(res,500,{error:'Erro no servidor. Tente novamente.'});else res.end()}
   });
   const cleanup=setInterval(()=>{for(const [id,s]of sessions)if(!s.clients.size&&Date.now()-s.updated>30*60*1000){stop(s);sessions.delete(id)}},60000);cleanup.unref();
