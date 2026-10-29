@@ -1,0 +1,8 @@
+import {SoproTTS} from '@soprotts/onnx-web';
+export function pcmToWav(pcm,rate){const buf=new ArrayBuffer(44+pcm.length*2),v=new DataView(buf);const str=(i,s)=>{for(let n=0;n<s.length;n++)v.setUint8(i+n,s.charCodeAt(n))};str(0,'RIFF');v.setUint32(4,36+pcm.length*2,true);str(8,'WAVE');str(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);str(36,'data');v.setUint32(40,pcm.length*2,true);for(let i=0;i<pcm.length;i++)v.setInt16(44+2*i,Math.max(-1,Math.min(1,pcm[i]))*32767,true);return new Blob([buf],{type:'audio/wav'})}
+export async function prepareLocalVoice(file,onProgress){
+ const tts=await SoproTTS.create({backend:'auto',wasmPaths:'/voice-runtime/',threads:2,onProgress});
+ try{const reference=await tts.prepareReference(file,{seconds:12});const cache=new Map();let disposed=false,chain=Promise.resolve();
+ return {backend:tts.backend,say(text,signal){const task=chain.then(async()=>{if(disposed)throw new Error('A voz local foi encerrada.');if(signal?.aborted)throw new DOMException('Cancelado','AbortError');if(cache.has(text))return cache.get(text);const pcm=await tts.synthesize(text,reference,{language:'pt',maxSeconds:15,cooperative:true});if(disposed||signal?.aborted)throw new DOMException('Cancelado','AbortError');const blob=pcmToWav(pcm,tts.sampleRate||24000);cache.set(text,blob);if(cache.size>40)cache.delete(cache.keys().next().value);return blob});chain=task.catch(()=>{});return task},async dispose(){disposed=true;await chain;cache.clear();await tts.dispose()}};
+ }catch(error){await tts.dispose();throw error}
+}

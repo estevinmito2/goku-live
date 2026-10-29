@@ -37,3 +37,13 @@ Testes automatizados usam um conector simulado; uma live ativa ainda é necessá
 ## Som de aura enviado
 
 O arquivo `dist/saiyan-aura.mp3` foi fornecido pelo usuário e toca em loop enquanto qualquer transformação está ativa. Para ao voltar à forma base, ao desconectar ou ao desligar o áudio. Tem volume próprio e abaixa durante as falas. Ative o som com um clique no navegador.
+
+## Voz gratuita no navegador
+
+Há uma alternativa sem assinatura com Sopro 0.3.0. No painel Voz gratuita neste aparelho, selecione uma gravação autorizada, clique em Preparar voz gratuita e depois ative o som. O seletor passa a Voz do amigo · gratuita local. O arquivo é processado no aparelho e não é publicado no servidor. Os modelos públicos são baixados no primeiro uso.
+
+O Sopro gera falas em português, mas a semelhança e o sotaque não são garantidos; sua documentação lista português europeu. No teste neste computador: a frase Oi, João! Seja bem-vindo! gerou 2,2 segundos de áudio em 7,9 segundos na CPU e 4,7 segundos com WebGPU, após aquecimento. Primeiros usos levaram aproximadamente 46 segundos incluindo inicialização/carregamentos. O desempenho varia com dispositivo, navegador e carga da live. A opção guarda em memória até 40 falas repetidas nesta sessão.
+
+Reabra o arquivo de referência e prepare a voz ao iniciar outra sessão. A alternativa gratuita altera a geração da voz; a conversa por modelo de linguagem continua dependendo da configuração separada de IA. Não há garantia de atender todos os comentários em tempo real.
+
+Fonte: https://github.com/samuel-vitorino/sopro e https://github.com/samuel-vitorino/sopro/blob/main/web/README.md . Código Apache-2.0; dependências ONNX Runtime com seus avisos de licença copiados pelo build.
