@@ -20,3 +20,15 @@
 .broadcast #exit{top:8%;font-size:clamp(14px,1.8cqh,20px);padding:9px 15px}
 .broadcast .stage{width:min(100vw,calc(100dvh * 9 / 16));height:min(100dvh,calc(100vw * 16 / 9));max-width:none;max-height:100dvh}
 
+/* Mouth stays anchored to each portrait, including during transformations. */
+.sprite{--mouth-x:48.7%;--mouth-y:21.8%;transform-origin:50% 62%}
+.stage[data-form="1"] .sprite{--mouth-x:42.5%;--mouth-y:22.2%}
+.stage[data-form="2"] .sprite{--mouth-x:44.7%;--mouth-y:21.9%}
+.stage[data-form="3"] .sprite{--mouth-x:47.3%;--mouth-y:21.8%}
+.stage[data-form="4"] .sprite{--mouth-x:49.4%;--mouth-y:21.8%}
+.talk-mouth{display:none;position:absolute;left:var(--mouth-x);top:var(--mouth-y);width:4%;height:1.45%;transform:translate(-50%,-50%) rotate(-9deg);border-radius:45%;background:#f3bb89;box-shadow:0 0 1px #e5a575}
+.talk-mouth i{position:absolute;inset:5% 11%;border-radius:35% 35% 48% 48%;background:linear-gradient(#fff0d6 0 24%,#5d211e 25% 70%,#e68179 72%);border:1px solid #65342a;transform:scaleY(calc(.12 + var(--mouth-open,0)*.88));transform-origin:center}
+body.speaking .talk-mouth{display:block}
+body.speaking .sprite{animation:talk-gesture 1.35s ease-in-out infinite}
+@keyframes talk-gesture{0%,100%{transform:rotate(-.65deg) scale(1)}35%{transform:rotate(.9deg) scale(1.012,1.006)}70%{transform:rotate(-.25deg) translateY(-.45%)}}
+@media(prefers-reduced-motion:reduce){body.speaking .sprite{animation:none}}
