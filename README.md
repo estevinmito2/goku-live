@@ -38,12 +38,14 @@ Testes automatizados usam um conector simulado; uma live ativa ainda é necessá
 
 O arquivo `dist/saiyan-aura.mp3` foi fornecido pelo usuário e toca em loop enquanto qualquer transformação está ativa. Para ao voltar à forma base, ao desconectar ou ao desligar o áudio. Tem volume próprio e abaixa durante as falas. Ative o som com um clique no navegador.
 
-## Voz gratuita no navegador
+## Voz do amigo em português do Brasil
 
-Há uma alternativa sem assinatura com Sopro 0.3.0. No painel Voz gratuita neste aparelho, selecione uma gravação autorizada, clique em Preparar voz gratuita e depois ative o som. O seletor passa a Voz do amigo · gratuita local. O arquivo é processado no aparelho e não é publicado no servidor. Os modelos públicos são baixados no primeiro uso.
+A geração padrão usa um serviço local Chatterbox Multilingual pt-BR, instalado no computador do operador. Abra INICIAR-VOZ-BRASILEIRA.cmd na pasta do serviço antes da live, mantenha-o em execução e ative o som no jogo. O painel informa quando o motor brasileiro está pronto. Se o navegador pedir acesso à rede local, permita para o domínio do jogo.
 
-O Sopro gera falas em português, mas a semelhança e o sotaque não são garantidos; sua documentação lista português europeu. No teste neste computador: a frase Oi, João! Seja bem-vindo! gerou 2,2 segundos de áudio em 7,9 segundos na CPU e 4,7 segundos com WebGPU, após aquecimento. Primeiros usos levaram aproximadamente 46 segundos incluindo inicialização/carregamentos. O desempenho varia com dispositivo, navegador e carga da live. A opção guarda em memória até 40 falas repetidas nesta sessão.
+A gravação autorizada fica no computador; a referência não é enviada ao Render ou a um serviço de clonagem. As solicitações de texto vão do navegador a http://127.0.0.1:3214 e o áudio retorna ao navegador. O serviço só escuta no loopback e só aceita geração pela origem do jogo ou pela prévia local autorizada. Não cria assinatura nem cobra por fala.
 
-A voz do amigo é o padrão para todas as falas. Após preparar uma vez, a gravação fica salva no IndexedDB deste navegador e é retomada automaticamente ao reabrir. Falas aguardam a preparação e não mudam silenciosamente para a voz do sistema. É necessário ativar o som com um clique a cada abertura. O botão Esquecer gravação salva remove a cópia local. Em outro aparelho ou após limpar dados, selecione a gravação novamente. A alternativa gratuita altera a geração da voz; a conversa por modelo de linguagem continua dependendo da configuração separada de IA. Não há garantia de atender todos os comentários em tempo real.
+É necessário instalar e configurar o serviço em cada computador que gerar voz. Sem ele, as falas aguardam; não há troca silenciosa para voz de Portugal nem para a voz do Windows. As 32 falas mais recentes ficam em cache na memória do serviço. A configuração da IA de conversa continua separada.
 
-Fonte: https://github.com/samuel-vitorino/sopro e https://github.com/samuel-vitorino/sopro/blob/main/web/README.md . Código Apache-2.0; dependências ONNX Runtime com seus avisos de licença copiados pelo build.
+O motor anterior Sopro é voltado a português europeu e não é usado pelo fluxo padrão. Seus arquivos de implementação foram preservados para histórico, mas a página não carrega o modelo anterior.
+
+Modelo e licença MIT: https://huggingface.co/ResembleAI/Chatterbox-Multilingual-pt-br . Código de inferência do Space oficial: https://huggingface.co/spaces/ResembleAI/Chatterbox-Multilingual-TTS-pt-br . As saídas mantêm a marca d'água do modelo.
