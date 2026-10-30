@@ -4,12 +4,12 @@ const status=text=>$('audio-status').textContent=text;
 let customReady=false,localReady=false,localSpeech,localPreferred=preferLocal;
 function voiceList(){const previous=$('voice-select').value;voices=synth?.getVoices().filter(v=>/^pt/i.test(v.lang))||[];$('voice-select').replaceChildren(new Option('Automática · português do Brasil',''));for(const v of voices)$('voice-select').add(new Option(v.name,v.voiceURI));if(localReady||localPreferred)$('voice-select').add(new Option(localReady?'Voz do amigo · padrão de todas as falas':'Voz do amigo · aguardando preparo','__local'));if(customReady)$('voice-select').add(new Option('Voz personalizada · arquivo autorizado','__custom'));if(previous==='__local'&&(localReady||localPreferred)||previous==='__custom'&&customReady||voices.some(v=>v.voiceURI===previous))$('voice-select').value=previous}
 voiceList();if(localPreferred)$('voice-select').value='__local';$('voice-select').onchange=()=>{localPreferred=$('voice-select').value==='__local';clear()};synth?.addEventListener('voiceschanged',voiceList);
-let meterFrame,disconnectMeter;
+let meterFrame,disconnectMeter;const voiceSources=new WeakMap();
 function stopMeter(){if(meterFrame)cancelAnimationFrame(meterFrame);meterFrame=null;disconnectMeter?.();disconnectMeter=null;onVoiceLevel(0)}
 function trackVoice(clip){
   if(!ctx?.createAnalyser||!ctx?.createMediaElementSource)return;
   const analyser=ctx.createAnalyser();analyser.fftSize=256;const samples=new Uint8Array(analyser.fftSize);
-  const source=ctx.createMediaElementSource(clip);source.connect(analyser);analyser.connect(ctx.destination);
+  let source=voiceSources.get(clip);if(!source){source=ctx.createMediaElementSource(clip);voiceSources.set(clip,source)}source.connect(analyser);analyser.connect(ctx.destination);
   disconnectMeter=()=>{source.disconnect();analyser.disconnect()};
   const sample=()=>{analyser.getByteTimeDomainData(samples);let energy=0;for(const value of samples)energy+=((value-128)/128)**2;onVoiceLevel(Math.min(1,Math.max(0,(Math.sqrt(energy/samples.length)-.008)*10)));meterFrame=requestAnimationFrame(sample)};
   sample();
